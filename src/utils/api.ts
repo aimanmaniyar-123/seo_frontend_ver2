@@ -6,7 +6,7 @@
  * Backend API Base URL
  * Hardcoded FastAPI backend server URL
  */
-export const API_BASE_URL = 'http://localhost:8000';
+export const API_BASE_URL = ' https://seo-backend-ver2.onrender.com';
 
 /**
  * Mock Data Toggle
