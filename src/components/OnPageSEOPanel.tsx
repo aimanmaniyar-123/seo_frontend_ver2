@@ -17,111 +17,113 @@ export function OnPageSEOPanel({ currentUrl, onRefresh }: OnPageSEOPanelProps) {
   // Agent-specific inputs - simplified to common patterns
   const [agentInputs, setAgentInputs] = useState<Record<string, any>>({});
 
-  const onPageAgents = [
-    // KEYWORD & CONTENT INTELLIGENCE (15 agents)
-    { id: 'target_keyword_research', name: 'Keyword Research', icon: Search, description: 'Research target keywords from content', color: 'bg-blue-500', category: 'keywords', endpoint: '/target_keyword_research', inputs: ['url', 'content'] },
-    { id: 'target_keyword_discovery', name: 'Keyword Discovery', icon: Search, description: 'Discover target keywords', color: 'bg-indigo-500', category: 'keywords', endpoint: '/target_keyword_discovery', inputs: ['url', 'content'] },
-    { id: 'keyword_mapping', name: 'Keyword Mapping', icon: Hash, description: 'Map keywords to sections', color: 'bg-violet-500', category: 'keywords', endpoint: '/keyword_mapping', inputs: ['url', 'content'] },
-    { id: 'lsi_semantic_keywords', name: 'LSI Keywords', icon: Search, description: 'Integrate semantic keywords', color: 'bg-purple-500', category: 'keywords', endpoint: '/lsi_semantic_keywords', inputs: ['url', 'content'] },
-    { id: 'content_gap_analyzer', name: 'Content Gap Analysis', icon: FileText, description: 'Analyze content gaps vs competitors', color: 'bg-fuchsia-500', category: 'keywords', endpoint: '/content_gap_analyzer', inputs: ['url', 'content', 'competitor_url'] },
-    { id: 'content_quality_depth', name: 'Content Quality', icon: FileText, description: 'Analyze content depth', color: 'bg-pink-500', category: 'keywords', endpoint: '/content_quality_depth', inputs: ['url', 'content'] },
-    { id: 'content_quality_uniqueness', name: 'Content Uniqueness', icon: FileText, description: 'Detect duplicate content', color: 'bg-rose-500', category: 'keywords', endpoint: '/content_quality_uniqueness', inputs: ['url', 'content'] },
-    { id: 'user_intent_alignment', name: 'Intent Alignment', icon: Search, description: 'Analyze user intent', color: 'bg-red-500', category: 'keywords', endpoint: '/user_intent_alignment', inputs: ['url', 'content'] },
-    { id: 'content_readability', name: 'Readability Analysis', icon: FileText, description: 'Analyze readability scores', color: 'bg-orange-500', category: 'keywords', endpoint: '/content_readability_engagement', inputs: ['url', 'content'] },
-    { id: 'content_freshness', name: 'Content Freshness', icon: FileText, description: 'Monitor content age', color: 'bg-amber-500', category: 'keywords', endpoint: '/content_freshness_monitor', inputs: ['last_updated_date'] },
-    { id: 'content_depth_analysis', name: 'Depth Analysis', icon: FileText, description: 'Analyze content completeness', color: 'bg-yellow-500', category: 'keywords', endpoint: '/content_depth_analysis', inputs: ['url', 'content'] },
-    { id: 'multimedia_usage', name: 'Multimedia Usage', icon: Image, description: 'Analyze multimedia presence', color: 'bg-lime-500', category: 'keywords', endpoint: '/multimedia_usage', inputs: ['url', 'content'] },
-    { id: 'eeat_signals', name: 'E-E-A-T Signals', icon: Shield, description: 'Analyze expertise signals', color: 'bg-green-500', category: 'keywords', endpoint: '/eeat_signals', inputs: ['url', 'content'] },
-    { id: 'readability_enhancement', name: 'Readability Enhance', icon: FileText, description: 'Improve readability', color: 'bg-emerald-500', category: 'keywords', endpoint: '/readability_enhancement', inputs: ['url', 'content'] },
+  const ONPAGE_PREFIX = "/onpage_seo";
 
-    // META ELEMENTS (10 agents)
-    { id: 'title_tag_optimizer', name: 'Title Optimizer', icon: FileText, description: 'Optimize title tags', color: 'bg-teal-500', category: 'meta', endpoint: '/title_tag_optimizer', inputs: ['url'] },
-    { id: 'title_tag_creation', name: 'Title Creation', icon: FileText, description: 'Create optimized titles', color: 'bg-cyan-500', category: 'meta', endpoint: '/title_tag_creation', inputs: ['url', 'content'] },
-    { id: 'title_tag_analysis', name: 'Title Analysis', icon: FileText, description: 'Analyze title tags', color: 'bg-sky-500', category: 'meta', endpoint: '/title_tag_analysis', inputs: ['url'] },
-    { id: 'title_tag_update', name: 'Title Update', icon: FileText, description: 'Update based on performance', color: 'bg-blue-500', category: 'meta', endpoint: '/title_tag_update', inputs: ['url'] },
-    { id: 'meta_description_generator', name: 'Meta Generator', icon: FileText, description: 'Generate meta descriptions', color: 'bg-indigo-500', category: 'meta', endpoint: '/meta_description_generator', inputs: ['url', 'content'] },
-    { id: 'meta_description_writer', name: 'Meta Writer', icon: FileText, description: 'Write optimized descriptions', color: 'bg-violet-500', category: 'meta', endpoint: '/meta_description_writer', inputs: ['url', 'content'] },
-    { id: 'meta_description_generation', name: 'Meta Generation', icon: FileText, description: 'Auto-generate descriptions', color: 'bg-purple-500', category: 'meta', endpoint: '/meta_description_generation', inputs: ['url', 'content'] },
-    { id: 'meta_description_uniqueness', name: 'Meta Uniqueness', icon: FileText, description: 'Check uniqueness', color: 'bg-fuchsia-500', category: 'meta', endpoint: '/meta_description_uniqueness', inputs: [] },
-    { id: 'meta_tags_consistency', name: 'Meta Consistency', icon: FileText, description: 'Check consistency', color: 'bg-pink-500', category: 'meta', endpoint: '/meta_tags_consistency', inputs: [] },
-    { id: 'meta_tag_expiry', name: 'Meta Expiry Check', icon: AlertCircle, description: 'Check expired tags', color: 'bg-rose-500', category: 'meta', endpoint: '/meta_tag_expiry_checker', inputs: [] },
+const onPageAgents = [
+  // --- KEYWORD & CONTENT INTELLIGENCE ---
+  { id: 'target_keyword_research', name: 'Keyword Research', icon: Search, description: 'Research target keywords from content', color: 'bg-blue-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/target_keyword_research`, inputs: ['url', 'content'] },
+  { id: 'target_keyword_discovery', name: 'Keyword Discovery', icon: Search, description: 'Discover target keywords', color: 'bg-indigo-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/target_keyword_discovery`, inputs: ['url', 'content'] },
+  { id: 'keyword_mapping', name: 'Keyword Mapping', icon: Hash, description: 'Map keywords to sections', color: 'bg-violet-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/keyword_mapping`, inputs: ['url', 'content'] },
+  { id: 'lsi_semantic_keywords', name: 'LSI Keywords', icon: Search, description: 'Integrate semantic keywords', color: 'bg-purple-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/lsi_semantic_keywords`, inputs: ['url', 'content'] },
+  { id: 'content_gap_analyzer', name: 'Content Gap Analysis', icon: FileText, description: 'Analyze content gaps vs competitors', color: 'bg-fuchsia-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/content_gap_analyzer`, inputs: ['url', 'content', 'competitor_url'] },
+  { id: 'content_quality_depth', name: 'Content Quality', icon: FileText, description: 'Analyze content depth', color: 'bg-pink-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/content_quality_depth`, inputs: ['url', 'content'] },
+  { id: 'content_quality_uniqueness', name: 'Content Uniqueness', icon: FileText, description: 'Detect duplicate content', color: 'bg-rose-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/content_quality_uniqueness`, inputs: ['url', 'content'] },
+  { id: 'user_intent_alignment', name: 'Intent Alignment', icon: Search, description: 'Analyze user intent', color: 'bg-red-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/user_intent_alignment`, inputs: ['url', 'content'] },
+  { id: 'content_readability', name: 'Readability Analysis', icon: FileText, description: 'Analyze readability scores', color: 'bg-orange-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/content_readability_engagement`, inputs: ['url', 'content'] },
+  { id: 'content_freshness', name: 'Content Freshness', icon: FileText, description: 'Monitor content age', color: 'bg-amber-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/content_freshness_monitor`, inputs: ['last_updated_date'] },
+  { id: 'content_depth_analysis', name: 'Depth Analysis', icon: FileText, description: 'Analyze content completeness', color: 'bg-yellow-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/content_depth_analysis`, inputs: ['url', 'content'] },
+  { id: 'multimedia_usage', name: 'Multimedia Usage', icon: Image, description: 'Analyze multimedia presence', color: 'bg-lime-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/multimedia_usage`, inputs: ['url', 'content'] },
+  { id: 'eeat_signals', name: 'E-E-A-T Signals', icon: Shield, description: 'Analyze expertise signals', color: 'bg-green-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/eeat_signals`, inputs: ['url', 'content'] },
+  { id: 'readability_enhancement', name: 'Readability Enhance', icon: FileText, description: 'Improve readability', color: 'bg-emerald-500', category: 'keywords', endpoint: `${ONPAGE_PREFIX}/readability_enhancement`, inputs: ['url', 'content'] },
 
-    // URL & CANONICAL (4 agents)
-    { id: 'url_structure', name: 'URL Structure', icon: Link2, description: 'Optimize URL structure', color: 'bg-red-500', category: 'url', endpoint: '/url_structure_optimization', inputs: ['url'] },
-    { id: 'canonical_management', name: 'Canonical Management', icon: Link2, description: 'Manage canonical tags', color: 'bg-orange-500', category: 'url', endpoint: '/canonical_tag_management', inputs: ['url'] },
-    { id: 'canonical_assigning', name: 'Canonical Assign', icon: Link2, description: 'Assign canonical tags', color: 'bg-amber-500', category: 'url', endpoint: '/canonical_tag_assigning', inputs: [] },
-    { id: 'canonical_enforcement', name: 'Canonical Enforce', icon: Shield, description: 'Enforce best practices', color: 'bg-yellow-500', category: 'url', endpoint: '/canonical_tag_enforcement', inputs: [] },
+  // --- META ELEMENTS ---
+  { id: 'title_tag_optimizer', name: 'Title Optimizer', icon: FileText, description: 'Optimize title tags', color: 'bg-teal-500', category: 'meta', endpoint: `${ONPAGE_PREFIX}/title_tag_optimizer`, inputs: ['url'] },
+  { id: 'title_tag_creation', name: 'Title Creation', icon: FileText, description: 'Create optimized titles', color: 'bg-cyan-500', category: 'meta', endpoint: `${ONPAGE_PREFIX}/title_tag_creation`, inputs: ['url', 'content'] },
+  { id: 'title_tag_analysis', name: 'Title Analysis', icon: FileText, description: 'Analyze title tags', color: 'bg-sky-500', category: 'meta', endpoint: `${ONPAGE_PREFIX}/title_tag_analysis`, inputs: ['url'] },
+  { id: 'title_tag_update', name: 'Title Update', icon: FileText, description: 'Update based on performance', color: 'bg-blue-500', category: 'meta', endpoint: `${ONPAGE_PREFIX}/title_tag_update`, inputs: ['url'] },
+  { id: 'meta_description_generator', name: 'Meta Generator', icon: FileText, description: 'Generate meta descriptions', color: 'bg-indigo-500', category: 'meta', endpoint: `${ONPAGE_PREFIX}/meta_description_generator`, inputs: ['url', 'content'] },
+  { id: 'meta_description_writer', name: 'Meta Writer', icon: FileText, description: 'Write optimized descriptions', color: 'bg-violet-500', category: 'meta', endpoint: `${ONPAGE_PREFIX}/meta_description_writer`, inputs: ['url', 'content'] },
+  { id: 'meta_description_generation', name: 'Meta Generation', icon: FileText, description: 'Auto-generate descriptions', color: 'bg-purple-500', category: 'meta', endpoint: `${ONPAGE_PREFIX}/meta_description_generation`, inputs: ['url', 'content'] },
+  { id: 'meta_description_uniqueness', name: 'Meta Uniqueness', icon: FileText, description: 'Check uniqueness', color: 'bg-fuchsia-500', category: 'meta', endpoint: `${ONPAGE_PREFIX}/meta_description_uniqueness`, inputs: [] },
+  { id: 'meta_tags_consistency', name: 'Meta Consistency', icon: FileText, description: 'Check consistency', color: 'bg-pink-500', category: 'meta', endpoint: `${ONPAGE_PREFIX}/meta_tags_consistency`, inputs: [] },
+  { id: 'meta_tag_expiry', name: 'Meta Expiry Check', icon: AlertCircle, description: 'Check expired tags', color: 'bg-rose-500', category: 'meta', endpoint: `${ONPAGE_PREFIX}/meta_tag_expiry_checker`, inputs: [] },
 
-    // HEADERS & STRUCTURE (8 agents)
-    { id: 'header_tag_manager', name: 'Header Manager', icon: Hash, description: 'Manage header structure', color: 'bg-lime-500', category: 'headers', endpoint: '/header_tag_manager', inputs: ['url', 'html_content'] },
-    { id: 'header_architecture', name: 'Header Architecture', icon: Hash, description: 'Analyze header hierarchy', color: 'bg-green-500', category: 'headers', endpoint: '/header_tag_architecture', inputs: ['url', 'html_content'] },
-    { id: 'header_structure_audit', name: 'Header Audit', icon: Hash, description: 'Audit header structure', color: 'bg-emerald-500', category: 'headers', endpoint: '/header_structure_audit', inputs: ['url', 'html_content'] },
-    { id: 'header_rewrite', name: 'Header Rewrite', icon: Hash, description: 'Suggest header rewrites', color: 'bg-teal-500', category: 'headers', endpoint: '/header_rewrite', inputs: ['url', 'html_content'] },
-    { id: 'header_optimization', name: 'Header Optimization', icon: Hash, description: 'Optimize with keywords', color: 'bg-cyan-500', category: 'headers', endpoint: '/header_tag_optimization', inputs: ['url', 'html_content'] },
-    { id: 'content_outline_ux', name: 'Content Outline', icon: FileText, description: 'Analyze content flow', color: 'bg-sky-500', category: 'headers', endpoint: '/content_outline_ux', inputs: ['url', 'html_content'] },
-    { id: 'page_layout_efficiency', name: 'Layout Efficiency', icon: Settings, description: 'Analyze layout & ads', color: 'bg-blue-500', category: 'headers', endpoint: '/page_layout_efficiency', inputs: ['url', 'html_content'] },
+  // --- URL & CANONICAL ---
+  { id: 'url_structure', name: 'URL Structure', icon: Link2, description: 'Optimize URL structure', color: 'bg-red-500', category: 'url', endpoint: `${ONPAGE_PREFIX}/url_structure_optimization`, inputs: ['url'] },
+  { id: 'canonical_management', name: 'Canonical Management', icon: Link2, description: 'Manage canonical tags', color: 'bg-orange-500', category: 'url', endpoint: `${ONPAGE_PREFIX}/canonical_tag_management`, inputs: ['url'] },
+  { id: 'canonical_assigning', name: 'Canonical Assign', icon: Link2, description: 'Assign canonical tags', color: 'bg-amber-500', category: 'url', endpoint: `${ONPAGE_PREFIX}/canonical_tag_assigning`, inputs: [] },
+  { id: 'canonical_enforcement', name: 'Canonical Enforce', icon: Shield, description: 'Enforce best practices', color: 'bg-yellow-500', category: 'url', endpoint: `${ONPAGE_PREFIX}/canonical_tag_enforcement`, inputs: [] },
 
-    // INTERNAL LINKING (7 agents)
-    { id: 'internal_links_analysis', name: 'Internal Links', icon: Link2, description: 'Analyze internal links', color: 'bg-indigo-500', category: 'links', endpoint: '/internal_links_analysis', inputs: ['url'] },
-    { id: 'internal_link_mapping', name: 'Link Mapping', icon: Link2, description: 'Map link equity', color: 'bg-violet-500', category: 'links', endpoint: '/internal_link_mapping', inputs: ['url'] },
-    { id: 'internal_link_network', name: 'Link Network', icon: Link2, description: 'Build link network', color: 'bg-purple-500', category: 'links', endpoint: '/internal_link_network_builder', inputs: ['url'] },
-    { id: 'anchor_text_optimization', name: 'Anchor Optimization', icon: Hash, description: 'Optimize anchor text', color: 'bg-fuchsia-500', category: 'links', endpoint: '/anchor_text_optimization', inputs: ['url'] },
-    { id: 'anchor_text_diversity', name: 'Anchor Diversity', icon: Hash, description: 'Calculate diversity', color: 'bg-pink-500', category: 'links', endpoint: '/anchor_text_diversity', inputs: [] },
-    { id: 'broken_link_repair', name: 'Broken Link Repair', icon: AlertCircle, description: 'Repair broken links', color: 'bg-rose-500', category: 'links', endpoint: '/broken_internal_link_repair', inputs: ['url'] },
-    { id: 'broken_link_fixer', name: 'Link Fixer', icon: AlertCircle, description: 'Fix broken links', color: 'bg-red-500', category: 'links', endpoint: '/broken_internal_link_fixer', inputs: [] },
+  // --- HEADERS & STRUCTURE ---
+  { id: 'header_tag_manager', name: 'Header Manager', icon: Hash, description: 'Manage header structure', color: 'bg-lime-500', category: 'headers', endpoint: `${ONPAGE_PREFIX}/header_tag_manager`, inputs: ['url', 'html_content'] },
+  { id: 'header_architecture', name: 'Header Architecture', icon: Hash, description: 'Analyze header hierarchy', color: 'bg-green-500', category: 'headers', endpoint: `${ONPAGE_PREFIX}/header_tag_architecture`, inputs: ['url', 'html_content'] },
+  { id: 'header_structure_audit', name: 'Header Audit', icon: Hash, description: 'Audit header structure', color: 'bg-emerald-500', category: 'headers', endpoint: `${ONPAGE_PREFIX}/header_structure_audit`, inputs: ['url', 'html_content'] },
+  { id: 'header_rewrite', name: 'Header Rewrite', icon: Hash, description: 'Suggest header rewrites', color: 'bg-teal-500', category: 'headers', endpoint: `${ONPAGE_PREFIX}/header_rewrite`, inputs: ['url', 'html_content'] },
+  { id: 'header_optimization', name: 'Header Optimization', icon: Hash, description: 'Optimize with keywords', color: 'bg-cyan-500', category: 'headers', endpoint: `${ONPAGE_PREFIX}/header_tag_optimization`, inputs: ['url', 'html_content'] },
+  { id: 'content_outline_ux', name: 'Content Outline', icon: FileText, description: 'Analyze content flow', color: 'bg-sky-500', category: 'headers', endpoint: `${ONPAGE_PREFIX}/content_outline_ux`, inputs: ['url', 'html_content'] },
+  { id: 'page_layout_efficiency', name: 'Layout Efficiency', icon: Settings, description: 'Analyze layout & ads', color: 'bg-blue-500', category: 'headers', endpoint: `${ONPAGE_PREFIX}/page_layout_efficiency`, inputs: ['url', 'html_content'] },
 
-    // IMAGE & MULTIMEDIA (10 agents)
-    { id: 'image_alt_text', name: 'Alt Text Analysis', icon: Image, description: 'Analyze alt text', color: 'bg-orange-500', category: 'images', endpoint: '/image_alt_text_analysis', inputs: ['url'] },
-    { id: 'image_alt_creation', name: 'Alt Tag Creation', icon: Image, description: 'Create alt tags', color: 'bg-amber-500', category: 'images', endpoint: '/image_alt_tag_creation', inputs: [] },
-    { id: 'image_alt_generator', name: 'Alt Generator', icon: Image, description: 'Generate alt text', color: 'bg-yellow-500', category: 'images', endpoint: '/image_alt_text_generator', inputs: [] },
-    { id: 'image_optimization', name: 'Image Optimization', icon: Image, description: 'Optimize images', color: 'bg-lime-500', category: 'images', endpoint: '/image_optimization', inputs: ['url', 'html_content'] },
-    { id: 'image_compression', name: 'Image Compression', icon: Image, description: 'Recommend compression', color: 'bg-green-500', category: 'images', endpoint: '/image_compression_format', inputs: [] },
-    { id: 'image_filename', name: 'Filename Optimization', icon: Image, description: 'Optimize filenames', color: 'bg-emerald-500', category: 'images', endpoint: '/image_filename_optimization', inputs: [] },
-    { id: 'lazy_loading_cdn', name: 'Lazy Loading CDN', icon: Zap, description: 'Implement lazy loading', color: 'bg-teal-500', category: 'images', endpoint: '/lazy_loading_cdn', inputs: ['url', 'html_content'] },
-    { id: 'video_interactive', name: 'Video Content', icon: Image, description: 'Optimize video content', color: 'bg-cyan-500', category: 'images', endpoint: '/video_interactive_content', inputs: [] },
-    { id: 'video_seo', name: 'Video SEO', icon: Image, description: 'Generate video schema', color: 'bg-sky-500', category: 'images', endpoint: '/video_seo', inputs: [] },
-    { id: 'interactive_elements', name: 'Interactive Elements', icon: Settings, description: 'Optimize interactivity', color: 'bg-blue-500', category: 'images', endpoint: '/interactive_elements_optimization', inputs: [] },
+  // --- INTERNAL LINKING ---
+  { id: 'internal_links_analysis', name: 'Internal Links', icon: Link2, description: 'Analyze internal links', color: 'bg-indigo-500', category: 'links', endpoint: `${ONPAGE_PREFIX}/internal_links_analysis`, inputs: ['url'] },
+  { id: 'internal_link_mapping', name: 'Link Mapping', icon: Link2, description: 'Map link equity', color: 'bg-violet-500', category: 'links', endpoint: `${ONPAGE_PREFIX}/internal_link_mapping`, inputs: ['url'] },
+  { id: 'internal_link_network', name: 'Link Network', icon: Link2, description: 'Build link network', color: 'bg-purple-500', category: 'links', endpoint: `${ONPAGE_PREFIX}/internal_link_network_builder`, inputs: ['url'] },
+  { id: 'anchor_text_optimization', name: 'Anchor Optimization', icon: Hash, description: 'Optimize anchor text', color: 'bg-fuchsia-500', category: 'links', endpoint: `${ONPAGE_PREFIX}/anchor_text_optimization`, inputs: ['url'] },
+  { id: 'anchor_text_diversity', name: 'Anchor Diversity', icon: Hash, description: 'Calculate diversity', color: 'bg-pink-500', category: 'links', endpoint: `${ONPAGE_PREFIX}/anchor_text_diversity`, inputs: [] },
+  { id: 'broken_link_repair', name: 'Broken Link Repair', icon: AlertCircle, description: 'Repair broken links', color: 'bg-rose-500', category: 'links', endpoint: `${ONPAGE_PREFIX}/broken_internal_link_repair`, inputs: ['url'] },
+  { id: 'broken_link_fixer', name: 'Link Fixer', icon: AlertCircle, description: 'Fix broken links', color: 'bg-red-500', category: 'links', endpoint: `${ONPAGE_PREFIX}/broken_internal_link_fixer`, inputs: [] },
 
-    // SCHEMA & STRUCTURED DATA (4 agents)
-    { id: 'schema_markup', name: 'Schema Generation', icon: Code, description: 'Generate schema markup', color: 'bg-indigo-500', category: 'schema', endpoint: '/schema_markup_generation', inputs: ['url', 'page_type'] },
-    { id: 'schema_implementation', name: 'Schema Implementation', icon: Code, description: 'Implement schema', color: 'bg-violet-500', category: 'schema', endpoint: '/schema_markup_implementation', inputs: ['url', 'page_type'] },
-    { id: 'schema_validation', name: 'Schema Validation', icon: Code, description: 'Validate schema', color: 'bg-purple-500', category: 'schema', endpoint: '/schema_validation', inputs: [] },
-    { id: 'rich_snippets', name: 'Rich Snippets', icon: Code, description: 'Find snippet opportunities', color: 'bg-fuchsia-500', category: 'schema', endpoint: '/rich_snippet_opportunities', inputs: ['url'] },
+  // --- IMAGES & MULTIMEDIA ---
+  { id: 'image_alt_text', name: 'Alt Text Analysis', icon: Image, description: 'Analyze alt text', color: 'bg-orange-500', category: 'images', endpoint: `${ONPAGE_PREFIX}/image_alt_text_analysis`, inputs: ['url'] },
+  { id: 'image_alt_creation', name: 'Alt Tag Creation', icon: Image, description: 'Create alt tags', color: 'bg-amber-500', category: 'images', endpoint: `${ONPAGE_PREFIX}/image_alt_tag_creation`, inputs: [] },
+  { id: 'image_alt_generator', name: 'Alt Generator', icon: Image, description: 'Generate alt text', color: 'bg-yellow-500', category: 'images', endpoint: `${ONPAGE_PREFIX}/image_alt_text_generator`, inputs: [] },
+  { id: 'image_optimization', name: 'Image Optimization', icon: Image, description: 'Optimize images', color: 'bg-lime-500', category: 'images', endpoint: `${ONPAGE_PREFIX}/image_optimization`, inputs: ['url', 'html_content'] },
+  { id: 'image_compression', name: 'Image Compression', icon: Image, description: 'Recommend compression', color: 'bg-green-500', category: 'images', endpoint: `${ONPAGE_PREFIX}/image_compression_format`, inputs: [] },
+  { id: 'image_filename', name: 'Filename Optimization', icon: Image, description: 'Optimize filenames', color: 'bg-emerald-500', category: 'images', endpoint: `${ONPAGE_PREFIX}/image_filename_optimization`, inputs: [] },
+  { id: 'lazy_loading_cdn', name: 'Lazy Loading CDN', icon: Zap, description: 'Implement lazy loading', color: 'bg-teal-500', category: 'images', endpoint: `${ONPAGE_PREFIX}/lazy_loading_cdn`, inputs: ['url', 'html_content'] },
+  { id: 'video_interactive', name: 'Video Content', icon: Image, description: 'Optimize video content', color: 'bg-cyan-500', category: 'images', endpoint: `${ONPAGE_PREFIX}/video_interactive_content`, inputs: [] },
+  { id: 'video_seo', name: 'Video SEO', icon: Image, description: 'Generate video schema', color: 'bg-sky-500', category: 'images', endpoint: `${ONPAGE_PREFIX}/video_seo`, inputs: [] },
+  { id: 'interactive_elements', name: 'Interactive Elements', icon: Settings, description: 'Optimize interactivity', color: 'bg-blue-500', category: 'images', endpoint: `${ONPAGE_PREFIX}/interactive_elements_optimization`, inputs: [] },
 
-    // UX & TECHNICAL (7 agents)
-    { id: 'page_speed', name: 'Page Speed', icon: Zap, description: 'Analyze Core Web Vitals', color: 'bg-pink-500', category: 'technical', endpoint: '/page_speed_analysis', inputs: ['url'] },
-    { id: 'core_web_vitals', name: 'Core Web Vitals', icon: Zap, description: 'Monitor vitals', color: 'bg-rose-500', category: 'technical', endpoint: '/core_web_vitals_monitor', inputs: ['url'] },
-    { id: 'mobile_usability_check', name: 'Mobile Usability', icon: Globe, description: 'Check mobile usability', color: 'bg-red-500', category: 'technical', endpoint: '/mobile_usability_check', inputs: ['url', 'html_content'] },
-    { id: 'mobile_usability_test', name: 'Mobile Test', icon: Globe, description: 'Test mobile friendly', color: 'bg-orange-500', category: 'technical', endpoint: '/mobile_usability_test', inputs: ['url'] },
-    { id: 'accessibility_compliance', name: 'Accessibility', icon: Shield, description: 'Check accessibility', color: 'bg-amber-500', category: 'technical', endpoint: '/accessibility_compliance_check', inputs: ['url', 'html_content'] },
-    { id: 'interstitial_ads', name: 'Interstitial Ads', icon: AlertCircle, description: 'Monitor intrusive ads', color: 'bg-yellow-500', category: 'technical', endpoint: '/interstitial_ad_monitoring', inputs: ['url', 'html_content'] },
-    { id: 'user_engagement', name: 'User Engagement', icon: Settings, description: 'Analyze engagement', color: 'bg-lime-500', category: 'technical', endpoint: '/user_engagement_metrics', inputs: [] },
+  // --- SCHEMA & STRUCTURED DATA ---
+  { id: 'schema_markup', name: 'Schema Generation', icon: Code, description: 'Generate schema markup', color: 'bg-indigo-500', category: 'schema', endpoint: `${ONPAGE_PREFIX}/schema_markup_generation`, inputs: ['url', 'page_type'] },
+  { id: 'schema_implementation', name: 'Schema Implementation', icon: Code, description: 'Implement schema', color: 'bg-violet-500', category: 'schema', endpoint: `${ONPAGE_PREFIX}/schema_markup_implementation`, inputs: ['url', 'page_type'] },
+  { id: 'schema_validation', name: 'Schema Validation', icon: Code, description: 'Validate schema', color: 'bg-purple-500', category: 'schema', endpoint: `${ONPAGE_PREFIX}/schema_validation`, inputs: [] },
+  { id: 'rich_snippets', name: 'Rich Snippets', icon: Code, description: 'Find snippet opportunities', color: 'bg-fuchsia-500', category: 'schema', endpoint: `${ONPAGE_PREFIX}/rich_snippet_opportunities`, inputs: ['url'] },
 
-    // OUTBOUND LINKS (3 agents)
-    { id: 'outbound_link_quality', name: 'Outbound Quality', icon: Link2, description: 'Analyze outbound links', color: 'bg-green-500', category: 'outbound', endpoint: '/outbound_link_quality', inputs: ['url', 'html_content'] },
-    { id: 'outbound_link_integrator', name: 'Link Integrator', icon: Link2, description: 'Integrate external links', color: 'bg-emerald-500', category: 'outbound', endpoint: '/external_outbound_link_integrator', inputs: ['url', 'content'] },
-    { id: 'outbound_link_monitoring', name: 'Link Monitoring', icon: Link2, description: 'Monitor outbound links', color: 'bg-teal-500', category: 'outbound', endpoint: '/outbound_link_monitoring', inputs: [] },
+  // --- TECHNICAL / UX ---
+  { id: 'page_speed', name: 'Page Speed', icon: Zap, description: 'Analyze Core Web Vitals', color: 'bg-pink-500', category: 'technical', endpoint: `${ONPAGE_PREFIX}/page_speed_analysis`, inputs: ['url'] },
+  { id: 'core_web_vitals', name: 'Core Web Vitals', icon: Zap, description: 'Monitor vitals', color: 'bg-rose-500', category: 'technical', endpoint: `${ONPAGE_PREFIX}/core_web_vitals_monitor`, inputs: ['url'] },
+  { id: 'mobile_usability_check', name: 'Mobile Usability', icon: Globe, description: 'Check mobile usability', color: 'bg-red-500', category: 'technical', endpoint: `${ONPAGE_PREFIX}/mobile_usability_check`, inputs: ['url', 'html_content'] },
+  { id: 'mobile_usability_test', name: 'Mobile Test', icon: Globe, description: 'Test mobile friendly', color: 'bg-orange-500', category: 'technical', endpoint: `${ONPAGE_PREFIX}/mobile_usability_test`, inputs: ['url'] },
+  { id: 'accessibility_compliance', name: 'Accessibility', icon: Shield, description: 'Check accessibility', color: 'bg-amber-500', category: 'technical', endpoint: `${ONPAGE_PREFIX}/accessibility_compliance_check`, inputs: ['url', 'html_content'] },
+  { id: 'interstitial_ads', name: 'Interstitial Ads', icon: AlertCircle, description: 'Monitor intrusive ads', color: 'bg-yellow-500', category: 'technical', endpoint: `${ONPAGE_PREFIX}/interstitial_ad_monitoring`, inputs: ['url', 'html_content'] },
+  { id: 'user_engagement', name: 'User Engagement', icon: Settings, description: 'Analyze engagement', color: 'bg-lime-500', category: 'technical', endpoint: `${ONPAGE_PREFIX}/user_engagement_metrics`, inputs: [] },
 
-    // SOCIAL SEO (4 agents)
-    { id: 'social_sharing', name: 'Social Sharing', icon: Share2, description: 'Optimize social tags', color: 'bg-cyan-500', category: 'social', endpoint: '/social_sharing_optimization', inputs: ['url', 'html_content'] },
-    { id: 'social_buttons', name: 'Social Buttons', icon: Share2, description: 'Optimize share buttons', color: 'bg-sky-500', category: 'social', endpoint: '/social_sharing_button_optimizer', inputs: ['url', 'html_content'] },
-    { id: 'social_engagement', name: 'Social Engagement', icon: Share2, description: 'Track engagement', color: 'bg-blue-500', category: 'social', endpoint: '/social_engagement_tracking', inputs: ['url'] },
-    { id: 'engagement_signals', name: 'Engagement Signals', icon: Share2, description: 'Track signals', color: 'bg-indigo-500', category: 'social', endpoint: '/engagement_signal_tracker', inputs: [] },
+  // --- OUTBOUND LINKS ---
+  { id: 'outbound_link_quality', name: 'Outbound Quality', icon: Link2, description: 'Analyze outbound links', color: 'bg-green-500', category: 'outbound', endpoint: `${ONPAGE_PREFIX}/outbound_link_quality`, inputs: ['url', 'html_content'] },
+  { id: 'outbound_link_integrator', name: 'Link Integrator', icon: Link2, description: 'Integrate external links', color: 'bg-emerald-500', category: 'outbound', endpoint: `${ONPAGE_PREFIX}/external_outbound_link_integrator`, inputs: ['url', 'content'] },
+  { id: 'outbound_link_monitoring', name: 'Link Monitoring', icon: Link2, description: 'Monitor outbound links', color: 'bg-teal-500', category: 'outbound', endpoint: `${ONPAGE_PREFIX}/outbound_link_monitoring`, inputs: [] },
 
-    // ERROR HANDLING (6 agents)
-    { id: 'error_404', name: '404 Management', icon: AlertCircle, description: 'Manage 404 errors', color: 'bg-violet-500', category: 'errors', endpoint: '/error_404_redirect_management', inputs: [] },
-    { id: 'redirect_chains', name: 'Redirect Chains', icon: AlertCircle, description: 'Clean redirect chains', color: 'bg-purple-500', category: 'errors', endpoint: '/redirect_chain_loop_cleaner', inputs: [] },
-    { id: 'duplicate_content', name: 'Duplicate Content', icon: AlertCircle, description: 'Detect duplicates', color: 'bg-fuchsia-500', category: 'errors', endpoint: '/duplicate_content_detection', inputs: [] },
-    { id: 'thin_content', name: 'Thin Content', icon: AlertCircle, description: 'Detect thin content', color: 'bg-pink-500', category: 'errors', endpoint: '/thin_content_detector', inputs: [] },
-    { id: 'seo_audit', name: 'SEO Audit', icon: Search, description: 'Comprehensive audit', color: 'bg-rose-500', category: 'errors', endpoint: '/seo_audit', inputs: [] },
-    { id: 'robots_meta', name: 'Robots Meta', icon: Code, description: 'Manage robots tags', color: 'bg-red-500', category: 'errors', endpoint: '/robots_meta_tag_manager', inputs: ['url', 'html_content'] },
+  // --- SOCIAL SEO ---
+  { id: 'social_sharing', name: 'Social Sharing', icon: Share2, description: 'Optimize social tags', color: 'bg-cyan-500', category: 'social', endpoint: `${ONPAGE_PREFIX}/social_sharing_optimization`, inputs: ['url', 'html_content'] },
+  { id: 'social_buttons', name: 'Social Buttons', icon: Share2, description: 'Optimize share buttons', color: 'bg-sky-500', category: 'social', endpoint: `${ONPAGE_PREFIX}/social_sharing_button_optimizer`, inputs: ['url', 'html_content'] },
+  { id: 'social_engagement', name: 'Social Engagement', icon: Share2, description: 'Track engagement', color: 'bg-blue-500', category: 'social', endpoint: `${ONPAGE_PREFIX}/social_engagement_tracking`, inputs: ['url'] },
+  { id: 'engagement_signals', name: 'Engagement Signals', icon: Share2, description: 'Track signals', color: 'bg-indigo-500', category: 'social', endpoint: `${ONPAGE_PREFIX}/engagement_signal_tracker`, inputs: [] },
 
-    // SECURITY & CRAWLABILITY (4 agents)
-    { id: 'crawl_budget', name: 'Crawl Budget', icon: Shield, description: 'Optimize crawl budget', color: 'bg-orange-500', category: 'security', endpoint: '/page_crawl_budget_optimizer', inputs: [] },
-    { id: 'https_mixed', name: 'HTTPS Mixed Content', icon: Shield, description: 'Check mixed content', color: 'bg-amber-500', category: 'security', endpoint: '/https_mixed_content_checker', inputs: ['url'] },
-    { id: 'resource_blocking', name: 'Resource Blocking', icon: Shield, description: 'Audit blocked resources', color: 'bg-yellow-500', category: 'security', endpoint: '/resource_blocking_auditor', inputs: ['url', 'html_content'] },
-    { id: 'security_headers', name: 'Security Headers', icon: Shield, description: 'Check security headers', color: 'bg-lime-500', category: 'security', endpoint: '/security_headers_checker', inputs: ['url'] }
-  ];
+  // --- ERRORS ---
+  { id: 'error_404', name: '404 Management', icon: AlertCircle, description: 'Manage 404 errors', color: 'bg-violet-500', category: 'errors', endpoint: `${ONPAGE_PREFIX}/error_404_redirect_management`, inputs: [] },
+  { id: 'redirect_chains', name: 'Redirect Chains', icon: AlertCircle, description: 'Clean redirect chains', color: 'bg-purple-500', category: 'errors', endpoint: `${ONPAGE_PREFIX}/redirect_chain_loop_cleaner`, inputs: [] },
+  { id: 'duplicate_content', name: 'Duplicate Content', icon: AlertCircle, description: 'Detect duplicates', color: 'bg-fuchsia-500', category: 'errors', endpoint: `${ONPAGE_PREFIX}/duplicate_content_detection`, inputs: [] },
+  { id: 'thin_content', name: 'Thin Content', icon: AlertCircle, description: 'Detect thin content', color: 'bg-pink-500', category: 'errors', endpoint: `${ONPAGE_PREFIX}/thin_content_detector`, inputs: [] },
+  { id: 'seo_audit', name: 'SEO Audit', icon: Search, description: 'Comprehensive audit', color: 'bg-rose-500', category: 'errors', endpoint: `${ONPAGE_PREFIX}/seo_audit`, inputs: [] },
+  { id: 'robots_meta', name: 'Robots Meta', icon: Code, description: 'Manage robots tags', color: 'bg-red-500', category: 'errors', endpoint: `${ONPAGE_PREFIX}/robots_meta_tag_manager`, inputs: ['url', 'html_content'] },
+
+  // --- SECURITY & CRAWLABILITY ---
+  { id: 'crawl_budget', name: 'Crawl Budget', icon: Shield, description: 'Optimize crawl budget', color: 'bg-orange-500', category: 'security', endpoint: `${ONPAGE_PREFIX}/page_crawl_budget_optimizer`, inputs: [] },
+  { id: 'https_mixed', name: 'HTTPS Mixed Content', icon: Shield, description: 'Check mixed content', color: 'bg-amber-500', category: 'security', endpoint: `${ONPAGE_PREFIX}/https_mixed_content_checker`, inputs: ['url'] },
+  { id: 'resource_blocking', name: 'Resource Blocking', icon: Shield, description: 'Audit blocked resources', color: 'bg-yellow-500', category: 'security', endpoint: `${ONPAGE_PREFIX}/resource_blocking_auditor`, inputs: ['url', 'html_content'] },
+  { id: 'security_headers', name: 'Security Headers', icon: Shield, description: 'Check security headers', color: 'bg-lime-500', category: 'security', endpoint: `${ONPAGE_PREFIX}/security_headers_checker`, inputs: ['url'] }
+];
 
   const categories = [
     { id: 'all', name: 'All Agents', count: onPageAgents.length },
