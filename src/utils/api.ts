@@ -2,80 +2,34 @@
 // API Configuration
 // ============================================
 
-/**
- * Backend API Base URL
- *
- * Preferred: set VITE_API_URL in your .env / Vercel env.
- * Fallback: hardcoded Render backend URL.
- */
-export const API_BASE_URL =
-  (import.meta as any).env?.VITE_API_URL?.trim() ||
-  'https://seo-backend-ver2.onrender.com'; // ✅ no leading space
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-/**
- * Mock Data Toggle
- * Set VITE_USE_MOCK_DATA="true" to force mock data (for local dev).
- * In production, leave it unset or "false".
- */
-export const USE_MOCK_DATA =
-  ((import.meta as any).env?.VITE_USE_MOCK_DATA ?? 'false') === 'true';
+// Mock Data Toggle
+export const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true';
 
-/**
- * API Endpoints Configuration
- */
+// API Endpoints
 export const API_ENDPOINTS = {
-  // System Health
   health: '/health',
-
-  // Agent Management
   agents: '/agents',
   agentExecute: '/agents/execute',
-
-  // Phase Management
   phases: '/phases',
   phaseExecute: '/phases/execute',
-
-  // Technical SEO Agents
-  technicalSeo: '/technical-seo',
-
-  // On-Page SEO Agents
-  onPageSeo: '/on-page-seo',
-
-  // Local SEO Agents
-  localSeo: '/local-seo',
-
-  // Off-Page SEO Agents
-  offPageSeo: '/off-page-seo',
-
-  // Logs & Monitoring
+  technicalSeo: '/technical_seo',
+  onPageSeo: '/onpage_seo',
+  localSeo: '/local_seo',
+  offPageSeo: '/offpage_seo',
   logs: '/logs',
   dependencies: '/dependencies',
-
-  // Orchestration
   orchestration: '/orchestration',
 };
 
-/**
- * API Configuration Options
- */
+// Timeout & retries
 export const API_CONFIG = {
-  timeout: 30000, // 30 seconds
+  timeout: 30000,
   retries: 3,
-  retryDelay: 1000, // 1 second
+  retryDelay: 1000,
 };
 
-/**
- * Environment-specific configuration
- */
-export const ENV = {
-  isDevelopment: (import.meta as any).env?.DEV ?? true,
-  isProduction: (import.meta as any).env?.PROD ?? false,
-  apiUrl: API_BASE_URL,
-};
-
-/**
- * Helper to construct full API URL
- */
 export function getApiUrl(endpoint: string): string {
   return `${API_BASE_URL}${endpoint}`;
 }
