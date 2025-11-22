@@ -42,257 +42,260 @@ export function OffPageSEOPanel({ currentUrl, onRefresh }: OffPageSEOPanelProps)
     reputation_monitoring: { url: '', brand_name: '' }
   });
 
-  const offPageAgents = [
-    // BACKLINK ACQUISITION & MANAGEMENT (12 agents)
-    {
-      id: 'quality_backlink_sourcing',
-      name: 'Quality Backlink Sourcing',
-      icon: Target,
-      description: 'Identify authoritative, relevant sites for backlinks',
-      color: 'bg-blue-500',
-      category: 'backlinks',
-      endpoint: '/quality_backlink_sourcing',
-      inputs: ['url', 'keywords', 'niche']
-    },
-    {
-      id: 'backlink_acquisition',
-      name: 'Backlink Acquisition',
-      icon: Link,
-      description: 'Source and recommend high-authority backlink prospects',
-      color: 'bg-indigo-500',
-      category: 'backlinks',
-      endpoint: '/backlink_acquisition',
-      inputs: ['url', 'target_domains']
-    },
-    {
-      id: 'guest_posting',
-      name: 'Guest Posting Research',
-      icon: ExternalLink,
-      description: 'Research and manage guest blog opportunities',
-      color: 'bg-purple-500',
-      category: 'backlinks',
-      endpoint: '/guest_posting',
-      inputs: ['url', 'niche', 'content_samples']
-    },
-    {
-      id: 'outreach_guest_posting',
-      name: 'Guest Post Outreach',
-      icon: MessageSquare,
-      description: 'Automate guest posting outreach campaigns',
-      color: 'bg-violet-500',
-      category: 'backlinks',
-      endpoint: '/outreach_guest_posting',
-      inputs: ['url', 'niche', 'outreach_list']
-    },
-    {
-      id: 'outreach_execution',
-      name: 'Outreach Execution',
-      icon: MessageSquare,
-      description: 'Personalize and manage outreach emails',
-      color: 'bg-fuchsia-500',
-      category: 'backlinks',
-      endpoint: '/outreach_execution',
-      inputs: ['url', 'prospects']
-    },
-    {
-      id: 'broken_link_building',
-      name: 'Broken Link Building',
-      icon: AlertTriangle,
-      description: 'Find broken links and suggest replacements',
-      color: 'bg-amber-500',
-      category: 'backlinks',
-      endpoint: '/broken_link_building',
-      inputs: ['url', 'niche_websites']
-    },
-    {
-      id: 'skyscraper_content',
-      name: 'Skyscraper Content',
-      icon: TrendingUp,
-      description: 'Create enhanced content to attract backlinks',
-      color: 'bg-cyan-500',
-      category: 'backlinks',
-      endpoint: '/skyscraper_content_outreach',
-      inputs: ['url', 'content_topic']
-    },
-    {
-      id: 'lost_backlink_recovery',
-      name: 'Lost Link Recovery',
-      icon: Link,
-      description: 'Monitor and recover lost backlinks',
-      color: 'bg-rose-500',
-      category: 'backlinks',
-      endpoint: '/lost_backlink_recovery',
-      inputs: ['url', 'lost_links']
-    },
-    {
-      id: 'backlink_quality_evaluator',
-      name: 'Quality Evaluator',
-      icon: Star,
-      description: 'Assess backlink quality and authority',
-      color: 'bg-green-500',
-      category: 'backlinks',
-      endpoint: '/backlink_quality_evaluator',
-      inputs: ['url', 'backlink_data']
-    },
-    {
-      id: 'anchor_text_diversity',
-      name: 'Anchor Text Diversity',
-      icon: Target,
-      description: 'Optimize anchor text distribution',
-      color: 'bg-teal-500',
-      category: 'backlinks',
-      endpoint: '/anchor_text_diversity',
-      inputs: ['url', 'backlink_profile']
-    },
-    {
-      id: 'toxic_link_detection',
-      name: 'Toxic Link Detection',
-      icon: Shield,
-      description: 'Detect and disavow toxic backlinks',
-      color: 'bg-red-500',
-      category: 'backlinks',
-      endpoint: '/toxic_link_detection',
-      inputs: ['url', 'domain']
-    },
-    {
-      id: 'backlink_profile_monitor',
-      name: 'Profile Monitor',
-      icon: TrendingUp,
-      description: 'Track backlink profile changes',
-      color: 'bg-sky-500',
-      category: 'backlinks',
-      endpoint: '/backlink_profile_monitor',
-      inputs: ['url', 'domain', 'monitoring_period']
-    },
-    
-    // BRAND MENTION & SOCIAL SIGNALS (4 agents)
-    {
-      id: 'unlinked_brand_mention_finder',
-      name: 'Brand Mention Finder',
-      icon: MessageSquare,
-      description: 'Find unlinked brand mentions',
-      color: 'bg-orange-500',
-      category: 'brand',
-      endpoint: '/unlinked_brand_mention_finder',
-      inputs: ['url', 'brand_name', 'site_limit']
-    },
-    {
-      id: 'brand_mention_outreach',
-      name: 'Mention Outreach',
-      icon: ExternalLink,
-      description: 'Convert mentions into backlinks',
-      color: 'bg-amber-500',
-      category: 'brand',
-      endpoint: '/brand_mention_outreach',
-      inputs: ['url', 'mentions']
-    },
-    {
-      id: 'brand_mention_sentiment',
-      name: 'Sentiment Analysis',
-      icon: Star,
-      description: 'Analyze brand mention sentiment',
-      color: 'bg-yellow-500',
-      category: 'brand',
-      endpoint: '/brand_mention_sentiment',
-      inputs: ['url', 'brand_mentions']
-    },
-    {
-      id: 'social_signal_collector',
-      name: 'Social Signals',
-      icon: Users,
-      description: 'Track social media engagement',
-      color: 'bg-pink-500',
-      category: 'brand',
-      endpoint: '/social_signal_collector',
-      inputs: ['url', 'social_platforms']
-    },
+  const OFFPAGE_PREFIX = "/offpage_seo";
 
-    // FORUM & COMMUNITY (2 agents)
-    {
-      id: 'forum_participation',
-      name: 'Forum Participation',
-      icon: MessageSquare,
-      description: 'Engage in niche forums and Q&A sites',
-      color: 'bg-violet-500',
-      category: 'community',
-      endpoint: '/forum_participation',
-      inputs: ['url', 'niche', 'target_forums']
-    },
-    {
-      id: 'forum_engagement',
-      name: 'Community Engagement',
-      icon: Users,
-      description: 'Build authority in online communities',
-      color: 'bg-purple-500',
-      category: 'community',
-      endpoint: '/forum_engagement',
-      inputs: ['url', 'niche']
-    },
+const offPageAgents = [
+  // BACKLINK ACQUISITION & MANAGEMENT (12 agents)
+  {
+    id: 'quality_backlink_sourcing',
+    name: 'Quality Backlink Sourcing',
+    icon: Target,
+    description: 'Identify authoritative, relevant sites for backlinks',
+    color: 'bg-blue-500',
+    category: 'backlinks',
+    endpoint: `${OFFPAGE_PREFIX}/quality_backlink_sourcing`,
+    inputs: ['url', 'keywords', 'niche']
+  },
+  {
+    id: 'backlink_acquisition',
+    name: 'Backlink Acquisition',
+    icon: Link,
+    description: 'Source and recommend high-authority backlink prospects',
+    color: 'bg-indigo-500',
+    category: 'backlinks',
+    endpoint: `${OFFPAGE_PREFIX}/backlink_acquisition`,
+    inputs: ['url', 'target_domains']
+  },
+  {
+    id: 'guest_posting',
+    name: 'Guest Posting Research',
+    icon: ExternalLink,
+    description: 'Research and manage guest blog opportunities',
+    color: 'bg-purple-500',
+    category: 'backlinks',
+    endpoint: `${OFFPAGE_PREFIX}/guest_posting`,
+    inputs: ['url', 'niche', 'content_samples']
+  },
+  {
+    id: 'outreach_guest_posting',
+    name: 'Guest Post Outreach',
+    icon: MessageSquare,
+    description: 'Automate guest posting outreach campaigns',
+    color: 'bg-violet-500',
+    category: 'backlinks',
+    endpoint: `${OFFPAGE_PREFIX}/outreach_guest_posting`,
+    inputs: ['url', 'niche', 'outreach_list']
+  },
+  {
+    id: 'outreach_execution',
+    name: 'Outreach Execution',
+    icon: MessageSquare,
+    description: 'Personalize and manage outreach emails',
+    color: 'bg-fuchsia-500',
+    category: 'backlinks',
+    endpoint: `${OFFPAGE_PREFIX}/outreach_execution`,
+    inputs: ['url', 'prospects']
+  },
+  {
+    id: 'broken_link_building',
+    name: 'Broken Link Building',
+    icon: AlertTriangle,
+    description: 'Find broken links and suggest replacements',
+    color: 'bg-amber-500',
+    category: 'backlinks',
+    endpoint: `${OFFPAGE_PREFIX}/broken_link_building`,
+    inputs: ['url', 'niche_websites']
+  },
+  {
+    id: 'skyscraper_content',
+    name: 'Skyscraper Content',
+    icon: TrendingUp,
+    description: 'Create enhanced content to attract backlinks',
+    color: 'bg-cyan-500',
+    category: 'backlinks',
+    endpoint: `${OFFPAGE_PREFIX}/skyscraper_content_outreach`,
+    inputs: ['url', 'content_topic']
+  },
+  {
+    id: 'lost_backlink_recovery',
+    name: 'Lost Link Recovery',
+    icon: Link,
+    description: 'Monitor and recover lost backlinks',
+    color: 'bg-rose-500',
+    category: 'backlinks',
+    endpoint: `${OFFPAGE_PREFIX}/lost_backlink_recovery`,
+    inputs: ['url', 'lost_links']
+  },
+  {
+    id: 'backlink_quality_evaluator',
+    name: 'Quality Evaluator',
+    icon: Star,
+    description: 'Assess backlink quality and authority',
+    color: 'bg-green-500',
+    category: 'backlinks',
+    endpoint: `${OFFPAGE_PREFIX}/backlink_quality_evaluator`,
+    inputs: ['url', 'backlink_data']
+  },
+  {
+    id: 'anchor_text_diversity',
+    name: 'Anchor Text Diversity',
+    icon: Target,
+    description: 'Optimize anchor text distribution',
+    color: 'bg-teal-500',
+    category: 'backlinks',
+    endpoint: `${OFFPAGE_PREFIX}/anchor_text_diversity`,
+    inputs: ['url', 'backlink_profile']
+  },
+  {
+    id: 'toxic_link_detection',
+    name: 'Toxic Link Detection',
+    icon: Shield,
+    description: 'Detect and disavow toxic backlinks',
+    color: 'bg-red-500',
+    category: 'backlinks',
+    endpoint: `${OFFPAGE_PREFIX}/toxic_link_detection`,
+    inputs: ['url', 'domain']
+  },
+  {
+    id: 'backlink_profile_monitor',
+    name: 'Profile Monitor',
+    icon: TrendingUp,
+    description: 'Track backlink profile changes',
+    color: 'bg-sky-500',
+    category: 'backlinks',
+    endpoint: `${OFFPAGE_PREFIX}/backlink_profile_monitor`,
+    inputs: ['url', 'domain', 'monitoring_period']
+  },
 
-    // CITATIONS & DIRECTORIES (2 agents)
-    {
-      id: 'citation_directory_listing',
-      name: 'Directory Listings',
-      icon: Building,
-      description: 'Manage business directory submissions',
-      color: 'bg-emerald-500',
-      category: 'citations',
-      endpoint: '/citation_directory_listing',
-      inputs: ['url', 'business_data']
-    },
-    {
-      id: 'directory_submissions',
-      name: 'Directory Submissions',
-      icon: Building,
-      description: 'Automate directory submissions',
-      color: 'bg-green-500',
-      category: 'citations',
-      endpoint: '/directory_submissions',
-      inputs: ['url', 'business_data']
-    },
+  // BRAND MENTION & SOCIAL SIGNALS (4 agents)
+  {
+    id: 'unlinked_brand_mention_finder',
+    name: 'Brand Mention Finder',
+    icon: MessageSquare,
+    description: 'Find unlinked brand mentions',
+    color: 'bg-orange-500',
+    category: 'brand',
+    endpoint: `${OFFPAGE_PREFIX}/unlinked_brand_mention_finder`,
+    inputs: ['url', 'brand_name', 'site_limit']
+  },
+  {
+    id: 'brand_mention_outreach',
+    name: 'Mention Outreach',
+    icon: ExternalLink,
+    description: 'Convert mentions into backlinks',
+    color: 'bg-amber-500',
+    category: 'brand',
+    endpoint: `${OFFPAGE_PREFIX}/brand_mention_outreach`,
+    inputs: ['url', 'mentions']
+  },
+  {
+    id: 'brand_mention_sentiment',
+    name: 'Sentiment Analysis',
+    icon: Star,
+    description: 'Analyze brand mention sentiment',
+    color: 'bg-yellow-500',
+    category: 'brand',
+    endpoint: `${OFFPAGE_PREFIX}/brand_mention_sentiment`,
+    inputs: ['url', 'brand_mentions']
+  },
+  {
+    id: 'social_signal_collector',
+    name: 'Social Signals',
+    icon: Users,
+    description: 'Track social media engagement',
+    color: 'bg-pink-500',
+    category: 'brand',
+    endpoint: `${OFFPAGE_PREFIX}/social_signal_collector`,
+    inputs: ['url', 'social_platforms']
+  },
 
-    // MONITORING & REPORTING (4 agents)
-    {
-      id: 'competitor_backlink_analysis',
-      name: 'Competitor Analysis',
-      icon: Target,
-      description: 'Analyze competitor backlink strategies',
-      color: 'bg-blue-500',
-      category: 'monitoring',
-      endpoint: '/competitor_backlink_analysis',
-      inputs: ['url', 'competitor_domains']
-    },
-    {
-      id: 'spam_defense',
-      name: 'Spam Defense',
-      icon: Shield,
-      description: 'Protect against negative SEO',
-      color: 'bg-red-500',
-      category: 'monitoring',
-      endpoint: '/spam_defense',
-      inputs: ['url', 'domain', 'monitoring_keywords']
-    },
-    {
-      id: 'offpage_performance_report',
-      name: 'Performance Report',
-      icon: TrendingUp,
-      description: 'Generate off-page SEO insights',
-      color: 'bg-indigo-500',
-      category: 'monitoring',
-      endpoint: '/offpage_performance_report',
-      inputs: ['url', 'time_period']
-    },
-    {
-      id: 'reputation_monitoring',
-      name: 'Reputation Monitor',
-      icon: Star,
-      description: 'Monitor brand reputation online',
-      color: 'bg-purple-500',
-      category: 'monitoring',
-      endpoint: '/reputation_monitoring',
-      inputs: ['url', 'brand_name']
-    }
-  ];
+  // FORUM & COMMUNITY (2 agents)
+  {
+    id: 'forum_participation',
+    name: 'Forum Participation',
+    icon: MessageSquare,
+    description: 'Engage in niche forums and Q&A sites',
+    color: 'bg-violet-500',
+    category: 'community',
+    endpoint: `${OFFPAGE_PREFIX}/forum_participation`,
+    inputs: ['url', 'niche', 'target_forums']
+  },
+  {
+    id: 'forum_engagement',
+    name: 'Community Engagement',
+    icon: Users,
+    description: 'Build authority in online communities',
+    color: 'bg-purple-500',
+    category: 'community',
+    endpoint: `${OFFPAGE_PREFIX}/forum_engagement`,
+    inputs: ['url', 'niche']
+  },
+
+  // CITATIONS & DIRECTORIES (2 agents)
+  {
+    id: 'citation_directory_listing',
+    name: 'Directory Listings',
+    icon: Building,
+    description: 'Manage business directory submissions',
+    color: 'bg-emerald-500',
+    category: 'citations',
+    endpoint: `${OFFPAGE_PREFIX}/citation_directory_listing`,
+    inputs: ['url', 'business_data']
+  },
+  {
+    id: 'directory_submissions',
+    name: 'Directory Submissions',
+    icon: Building,
+    description: 'Automate directory submissions',
+    color: 'bg-green-500',
+    category: 'citations',
+    endpoint: `${OFFPAGE_PREFIX}/directory_submissions`,
+    inputs: ['url', 'business_data']
+  },
+
+  // MONITORING & REPORTING (4 agents)
+  {
+    id: 'competitor_backlink_analysis',
+    name: 'Competitor Analysis',
+    icon: Target,
+    description: 'Analyze competitor backlink strategies',
+    color: 'bg-blue-500',
+    category: 'monitoring',
+    endpoint: `${OFFPAGE_PREFIX}/competitor_backlink_analysis`,
+    inputs: ['url', 'competitor_domains']
+  },
+  {
+    id: 'spam_defense',
+    name: 'Spam Defense',
+    icon: Shield,
+    description: 'Protect against negative SEO',
+    color: 'bg-red-500',
+    category: 'monitoring',
+    endpoint: `${OFFPAGE_PREFIX}/spam_defense`,
+    inputs: ['url', 'domain', 'monitoring_keywords']
+  },
+  {
+    id: 'offpage_performance_report',
+    name: 'Performance Report',
+    icon: TrendingUp,
+    description: 'Generate off-page SEO insights',
+    color: 'bg-indigo-500',
+    category: 'monitoring',
+    endpoint: `${OFFPAGE_PREFIX}/offpage_performance_report`,
+    inputs: ['url', 'time_period']
+  },
+  {
+    id: 'reputation_monitoring',
+    name: 'Reputation Monitor',
+    icon: Star,
+    description: 'Monitor brand reputation online',
+    color: 'bg-purple-500',
+    category: 'monitoring',
+    endpoint: `${OFFPAGE_PREFIX}/reputation_monitoring`,
+    inputs: ['url', 'brand_name']
+  }
+];
+
 
   const categories = [
     { id: 'all', name: 'All Agents', count: offPageAgents.length },
