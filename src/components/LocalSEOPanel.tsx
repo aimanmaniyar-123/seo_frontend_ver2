@@ -27,88 +27,89 @@ export function LocalSEOPanel({ currentUrl, onRefresh }: LocalSEOPanelProps) {
   });
 
   const localAgents = [
-    {
-      id: 'gmb_manager',
-      name: 'GMB Manager',
-      icon: Building2,
-      description: 'Manage Google Business Profile',
-      color: 'bg-blue-500',
-      endpoint: '/gmb_manager',
-      inputs: ['url', 'name', 'address', 'phone', 'website']
-    },
-    {
-      id: 'business_profile_manager',
-      name: 'Profile Manager',
-      icon: FileCheck,
-      description: 'Manage business profile attributes',
-      color: 'bg-indigo-500',
-      endpoint: '/business_profile_manager',
-      inputs: ['url', 'name', 'address', 'phone', 'website']
-    },
-    {
-      id: 'citation_builder',
-      name: 'Citation Builder',
-      icon: MapPin,
-      description: 'Build citations across directories',
-      color: 'bg-green-500',
-      endpoint: '/citation_builder',
-      inputs: ['url', 'name', 'address', 'phone']
-    },
-    {
-      id: 'citation_audit',
-      name: 'Citation Audit',
-      icon: FileCheck,
-      description: 'Audit citation consistency',
-      color: 'bg-emerald-500',
-      endpoint: '/citation_creation_audit',
-      inputs: ['url', 'name', 'address', 'phone']
-    },
-    {
-      id: 'nap_consistency',
-      name: 'NAP Consistency',
-      icon: Award,
-      description: 'Check Name, Address, Phone consistency',
-      color: 'bg-yellow-500',
-      endpoint: '/nap_consistency',
-      inputs: ['url', 'name', 'address', 'phone']
-    },
-    {
-      id: 'review_management',
-      name: 'Review Management',
-      icon: Star,
-      description: 'Manage and respond to reviews',
-      color: 'bg-orange-500',
-      endpoint: '/review_management',
-      inputs: ['url', 'reviews']
-    },
-    {
-      id: 'local_keyword_research',
-      name: 'Keyword Research',
-      icon: Search,
-      description: 'Discover local keywords',
-      color: 'bg-purple-500',
-      endpoint: '/local_keyword_research',
-      inputs: ['url', 'location', 'business_type', 'services']
-    },
-    {
-      id: 'map_pack_tracker',
-      name: 'Map Pack Tracker',
-      icon: TrendingUp,
-      description: 'Track map pack rankings',
-      color: 'bg-pink-500',
-      endpoint: '/map_pack_rank_tracker',
-      inputs: ['url', 'location', 'keywords', 'competitors']
-    },
-    {
-      id: 'competitor_benchmark',
-      name: 'Competitor Benchmark',
-      icon: Award,
-      description: 'Benchmark against competitors',
-      color: 'bg-red-500',
-      endpoint: '/local_competitor_benchmark',
-      inputs: ['url', 'name', 'competitors']
-    }
-  ];
+  {
+    id: 'gmb_manager',
+    name: 'GMB Manager',
+    icon: Building2,
+    description: 'Manage Google Business Profile',
+    color: 'bg-blue-500',
+    endpoint: '/local_seo/gmb_manager',
+    inputs: ['url', 'name', 'address', 'phone', 'website']
+  },
+  {
+    id: 'business_profile_manager',
+    name: 'Profile Manager',
+    icon: FileCheck,
+    description: 'Manage business profile attributes',
+    color: 'bg-indigo-500',
+    endpoint: '/local_seo/business_profile_manager',
+    inputs: ['url', 'name', 'address', 'phone', 'website']
+  },
+  {
+    id: 'citation_builder',
+    name: 'Citation Builder',
+    icon: MapPin,
+    description: 'Build citations across directories',
+    color: 'bg-green-500',
+    endpoint: '/local_seo/citation_builder',
+    inputs: ['url', 'name', 'address', 'phone']
+  },
+  {
+    id: 'citation_audit',
+    name: 'Citation Audit',
+    icon: FileCheck,
+    description: 'Audit citation consistency',
+    color: 'bg-emerald-500',
+    endpoint: '/local_seo/citation_creation_audit',
+    inputs: ['url', 'name', 'address', 'phone']
+  },
+  {
+    id: 'nap_consistency',
+    name: 'NAP Consistency',
+    icon: Award,
+    description: 'Check Name, Address, Phone consistency',
+    color: 'bg-yellow-500',
+    endpoint: '/local_seo/nap_consistency',
+    inputs: ['url', 'name', 'address', 'phone']
+  },
+  {
+    id: 'review_management',
+    name: 'Review Management',
+    icon: Star,
+    description: 'Manage and respond to reviews',
+    color: 'bg-orange-500',
+    endpoint: '/local_seo/review_management',
+    inputs: ['url', 'reviews']
+  },
+  {
+    id: 'local_keyword_research',
+    name: 'Keyword Research',
+    icon: Search,
+    description: 'Discover local keywords',
+    color: 'bg-purple-500',
+    endpoint: '/local_seo/local_keyword_research',
+    inputs: ['url', 'location', 'business_type', 'services']
+  },
+  {
+    id: 'map_pack_tracker',
+    name: 'Map Pack Tracker',
+    icon: TrendingUp,
+    description: 'Track map pack rankings',
+    color: 'bg-pink-500',
+    endpoint: '/local_seo/map_pack_rank_tracker',
+    inputs: ['url', 'location', 'keywords', 'competitors']
+  },
+  {
+    id: 'competitor_benchmark',
+    name: 'Competitor Benchmark',
+    icon: Award,
+    description: 'Benchmark against competitors',
+    color: 'bg-red-500',
+    endpoint: '/local_seo/local_competitor_benchmark',
+    inputs: ['url', 'name', 'competitors']
+  }
+];
+
 
   const updateAgentInput = (agentId: string, field: string, value: string) => {
     setAgentInputs(prev => ({
