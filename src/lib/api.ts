@@ -1,15 +1,15 @@
 import { API_BASE_URL } from '../utils/api';
 
-// local mock toggle
-export const USE_MOCK_DATA = false;
+// Local mock mode toggle (no conflict with imports)
+export const USE_MOCK_DATA =
+  import.meta.env.VITE_USE_MOCK_DATA === 'true' ? true : false;
 
-
-
-// ...
+// ... your mock data function (if exists)
+// function getMockData(...) { ... }
 
 // API fetch wrapper with optional mock mode
 export async function apiFetch<T>(endpoint: string, options?: RequestInit): Promise<T> {
-  // Explicit mock mode (local dev)
+  // Explicit mock mode (local dev only)
   if (USE_MOCK_DATA) {
     console.info(`[apiFetch] MOCK mode enabled. Returning mock for ${endpoint}`);
     return getMockData(endpoint) as T;
@@ -50,7 +50,7 @@ export async function apiFetch<T>(endpoint: string, options?: RequestInit): Prom
     return (await response.json()) as T;
   } catch (error) {
     console.error(`[apiFetch] Request to ${url} failed`, error);
-    // ❌ Do NOT silently fall back to mock unless mock mode is explicitly enabled
     throw error;
   }
 }
+
